@@ -1,5 +1,6 @@
 console.log('First');
-jQuery.get('page.html', function (data) {
-    console.log('Second');
-});
+setTimeout(() => {
+    console.log("second"); 
+    
+}, 1000);
 console.log('Third');
