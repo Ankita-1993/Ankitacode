@@ -17,17 +17,20 @@ function delay() {
     return promise;
 }
 
-async function update(users) {
+async function update(user, req) {
     await delay();
-    const user = users.find(c => c.id === parseInt(req.params.id));
-    user.name = req.body.name;
+    const user = users.find(c => c.id === parseInt(user.id));
     return user;
 }
 
 app.put('/api/users/:id', (req, res) => {
-    update(req.body.name).then(updateduser => {
-        res.send(users)
-    })
+    const user = {
+        id: req.params.id,
+        name: req.body.name
+    }
+    update(user).then(updateduser => {
+        res.send(user)
+    });
         
 });
 const port = process.env.PORT || 3000;
