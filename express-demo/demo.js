@@ -8,7 +8,7 @@ const users = [
     {id:3, name:'user3'},
 ];
 
-function delay(users) {
+function delay() {
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve()
@@ -17,16 +17,18 @@ function delay(users) {
     return promise;
 }
 
-async function fetch(users) {
-    await delay()
+async function update(users) {
+    await delay();
     const user = users.find(c => c.id === parseInt(req.params.id));
+    user.name = req.body.name;
+    return user;
 }
 
-app.get('/api/users/:id', (req, res) => {
-    fetch(req.params.id).then(() => {
+app.put('/api/users/:id', (req, res) => {
+    update(req.body.name).then(updateduser => {
         res.send(users)
     })
+        
 });
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`surver is running on port ${port}..`))

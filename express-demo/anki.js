@@ -7,7 +7,7 @@ const users = [
     {id:2, name: 'user2'},
     {id:3, name: 'user3'},
 ];
-function delay(username) {
+function delay() {
     const promise = new Promise((resolve,reject) => {
         setTimeout(() => {
             resolve()
@@ -15,6 +15,7 @@ function delay(username) {
     });
     return promise;
 }
+
 function insert(username) {
     delay().then(() =>{
         const user = {
@@ -22,12 +23,18 @@ function insert(username) {
             name: username
         };
         users.push(user);
-    })
+
+        return user;   
+    });
+        
 }
-app.post('/api/users', (req, res) => {
-    insert(req.body.name).then(insertedUser => {
+
+app.post('/api/users', (req, res)=> {
+    insert().then(users => {
         res.send(users);
     })
+    
 });
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`surver is running on port ${port}..`))
+app.listen(port, () => console.log(`server is running on port ${port}..`))
