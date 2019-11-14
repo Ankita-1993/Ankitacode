@@ -17,10 +17,10 @@ function delay() {
     return promise;
 }
 
-async function update(user, req) {
+async function update(users) {
     await delay();
-    const user = users.find(c => c.id === parseInt(user.id));
-    return user;
+    const userdb = users.find(c => c.id === parseInt(users.id));
+    return userbd;
 }
 
 app.put('/api/users/:id', (req, res) => {
