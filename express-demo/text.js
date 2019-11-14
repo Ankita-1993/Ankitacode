@@ -33,6 +33,22 @@ app.post('/api/users', (req, res) => {
     })
 });
 
+async function update(user) {
+    await delay();
+    const userdb = users.find(c => c.id === parseInt(user.id));
+    return userdb;
+}
+
+app.put('/api/users/:id', (req, res) => {
+    const user = {
+        id: req.params.id,
+        name: req.body.name
+    }
+    update(user).then(updateduser => {
+        res.send(user)
+    });
+    
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`surver is running on ${port}....`));
