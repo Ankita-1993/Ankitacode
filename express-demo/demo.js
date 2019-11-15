@@ -17,6 +17,22 @@ function delay() {
     return promise;
 }
 
+async function insert(username) {
+    await delay();
+    const user = {
+        id: users.length + 1,
+        name: username
+    };
+    users.push(user);
+}
+
+app.post('/api/users', (req, res) => {
+    insert(req.body.name).then(insertedUser => {
+        res.send(users);
+
+    })
+});
+
 async function update(user) {
     await delay();
     const userdb = users.find(c => c.id === parseInt(user.id));
@@ -34,16 +50,34 @@ app.put('/api/users/:id', (req, res) => {
     
 });
 
-async function read(users) {
+async function remove(user) {
     await delay();
-    const user = users.find(c => c.id === parseInt(users.id));
-    return user;
+    const userdb = users.find(c => c.id === parseInt(user.id));
+    return userdb;
 }
-app.get('/api/users/:id', (req, res) => {
-    read(users).then(readusers => {
+app.delete('/api/users/:id', (req, res) => {
+    const index = users.indexOf(users);
+    users.splice(index, 1);
+    remove(index).then(removedindex => {
         res.send(users)
     });
 });
+
+async function read(user) {
+    await delay();
+    const userdb = users.find(c => c.id === parseInt(user.id));
+    return userdb;
+}
+app.get('/api/users/:id', (req, res) => {
+    const user = {
+        id: req.params.id,
+        name: req.body.name
+    }
+    read(user).then(readuser => {
+        res.send(users)
+    });
+});
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`server is running on port ${port}..`))
