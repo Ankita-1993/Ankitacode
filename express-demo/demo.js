@@ -19,11 +19,11 @@ function delay() {
 
 async function insert(username) {
     await delay();
-    const user = {
+    const userdb = {
         id: users.length + 1,
         name: username
     };
-    users.push(user);
+    users.push(userdb);
 }
 
 app.post('/api/users', (req, res) => {
@@ -68,13 +68,12 @@ async function read(user) {
     const userdb = users.find(c => c.id === parseInt(user.id));
     return userdb;
 }
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users', (req, res) => {
     const user = {
         id: req.params.id,
-        name: req.body.name
     }
     read(user).then(readuser => {
-        res.send(users)
+        res.send(user)
     });
 });
 
